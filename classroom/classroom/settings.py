@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'authentication',
     'api',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+BROKER_URL = 'amqp://'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+CELERY_RESULT_BACKEND = 'django-db'
 
 
 # Internationalization

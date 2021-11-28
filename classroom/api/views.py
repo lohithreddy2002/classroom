@@ -8,13 +8,12 @@ from rest_framework.response import Response
 import string
 from . import serializers
 from . import models
- 
-
+from . import tasks 
+import  datetime
 # Create your views here.
 
 def random_string_generator(str_size, allowed_chars):
     return ''.join(random.choice(allowed_chars) for x in range(str_size))
-
 
 
 @api_view(['POST'])
@@ -37,6 +36,7 @@ def create_room(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_rooms(request):
+    tasks.test.apply_async(countdown = 20)
     rooms_db = models.Room.objects.filter(user = request.user)
     rooms = []
     da = models.UserRoom.objects.filter(user_id = request.user)

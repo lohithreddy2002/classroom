@@ -2,12 +2,12 @@ from django.db.models import fields
 from rest_framework import serializers
 from . import models
 
-class RoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Room
-        fields = '__all__'
+# class RoomSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.Room
+#         fields = '__all__'
 
-class PostSerializer(serializers.ModelSerializer):
+class MessageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.RoomPost
+        model = models.Message
         fields = '__all__'

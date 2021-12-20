@@ -1,3 +1,4 @@
+from django.http.response import HttpResponseBadRequest
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.decorators import permission_classes
@@ -5,7 +6,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from classroom.settings import AUTH_USER_MODEL
 from rest_framework.authtoken.models import Token
+from django.db import IntegrityError
+from django.contrib.auth import get_user_model
+from api.models import Contact
+
+User = get_user_model()
 
 # Create your views here.
 @api_view(['POST'])
@@ -13,9 +20,17 @@ from rest_framework.authtoken.models import Token
 def Signup(request):
     email = request.data["email"]
     password = request.data["password"]
-    user = User(username = email,password = password)
-    user.save()
+    user = User(email = email,password = password)
+    try:
+        user.save()
+    except IntegrityError:
+        data = {
+            "data":"email already exists"
+        }
+        return Response(data, status=HttpResponseBadRequest.status_code)
     token = Token.objects.create(user =user)
+    contact = Contact(user = user)
+    contact.save()
     data = { 
      "token" :token.key,
      "test" : user.id
@@ -25,10 +40,10 @@ def Signup(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
-    username = request.data["username"]
+    username = request.data["email"]
     password = request.data["password"]
     try:
-        user = User.objects.get(username = username)
+        user = User.objects.get(email= username)
         print(user.id)
         token = Token.objects.get(user = user)
         print(token.key)
@@ -41,5 +56,5 @@ def login(request):
         data = {
             "message" : "no user found"
         }
-        return Response(data)
+        return Response(data,HttpResponseBadRequest.status_code)
 

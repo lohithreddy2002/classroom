@@ -8,7 +8,8 @@ from rest_framework.response import Response
 import string
 from . import serializers
 from . import models
-from . import tasks 
+from . import tasks
+from api.models import Contact
 import  datetime
 # Create your views here.
 
@@ -86,3 +87,29 @@ def join_room(request):
 def get_joined_rooms(request):
     a = models.UserRoom.objects.filter(request.user)
     print(a)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_contacts(request):
+    user = request.user
+    contact = get_contact_of_user(user)
+    print(contact.friends)
+    data = {
+        "message":"joined room successfully"
+    }
+    return Response(data=data)
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def create_chat(request):
+    user = request.user
+    chat = models.Chat(request.user.id)
+    chat.save()
+    data = {
+        "message":"joined room successfully"
+    }
+    return Response(data=data)
+
+def get_contact_of_user(user):
+    contact = Contact.objects.get(user=user)
+    return contact

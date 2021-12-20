@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'authentication',
     'api',
-    'django_celery_results'
+    'django_celery_results',
+    'channels'
 ]
 
 MIDDLEWARE = [
+    'kolo.middleware.KoloMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,6 +75,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'classroom.wsgi.application'
+ASGI_APPLICATION = "classroom.asgi.application"
+CHANNEL_LAYERS = {
+    # 'default': {
+    #     'BACKEND': 'channels_redis.core.RedisChannelLayer',
+    #     'CONFIG': {
+    #         "hosts": [('127.0.0.1', 6379)],
+    #     },
+    # },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 
 # Database
@@ -123,6 +137,8 @@ CELERY_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 CELERY_RESULT_BACKEND = 'django-db'
+
+AUTH_USER_MODEL = 'authentication.CustomUser'
 
 
 # Internationalization

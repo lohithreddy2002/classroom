@@ -41,12 +41,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'authentication',
     'api',
-    'django_celery_results',
     'channels'
 ]
 
 MIDDLEWARE = [
-    'kolo.middleware.KoloMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -8,7 +8,6 @@ from rest_framework.response import Response
 import string
 from . import serializers
 from . import models
-from . import tasks
 from api.models import Contact
 import  datetime
 # Create your views here.

@@ -93,10 +93,10 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'classroom',
-        'USER': 'root',
-        'PASSWORD': 'lohith',
-        'HOST':'localhost',
+        'NAME': 'lohith$classroom',
+        'USER': 'lohith',
+        'PASSWORD': 'classroomdata',
+        'HOST':'lohith.mysql.pythonanywhere-services.com',
         'PORT':'3306',
     }
 }
